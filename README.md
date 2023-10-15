@@ -1,5 +1,7 @@
 # isaacgym-kinova-gen3-plugin
 
+A modified URDF file and python example script for Kinova Gen 3 robot with Franka Panda Gripper simulation using Isaac Gym.
+
 # Demo
 
 [![Watch the video](https://img.youtube.com/vi/5W43jEBt8k4/maxresdefault.jpg)](https://youtu.be/5W43jEBt8k4)
