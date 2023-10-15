@@ -15,8 +15,8 @@ A modified URDF file and python example script for Kinova Gen 3 robot with Frank
 
 # Known Issue
 
-- The gripper is `panda_hande`, not `robotiq_2f_85`, will be modified later;
-- Strange pose with panda_ik
+- The gripper is `panda_hande`, not `robotiq_2f_85`, to be modified later;
+- Null space control to be developed.
 
 # Source
 
