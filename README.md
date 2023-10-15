@@ -2,7 +2,7 @@
 
 # Demo
 
-[![Watch the video](https://img.youtube.com/vi/T5W43jEBt8k4.jpg)](https://youtu.be/5W43jEBt8k4)
+[![Watch the video](https://img.youtube.com/vi/5W43jEBt8k4/maxresdefault.jpg)](https://youtu.be/5W43jEBt8k4)
 
 # Installation
 
