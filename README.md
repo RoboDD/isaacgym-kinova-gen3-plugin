@@ -2,7 +2,11 @@
 
 A modified URDF file and python example script for Kinova Gen 3 robot with Franka Panda Gripper simulation using Isaac Gym.
 
-# Demo
+![](render.png)
+
+![](collision.png)
+
+# Demo (old)
 
 [![Watch the video](https://img.youtube.com/vi/5W43jEBt8k4/maxresdefault.jpg)](https://youtu.be/5W43jEBt8k4)
 
@@ -15,7 +19,7 @@ A modified URDF file and python example script for Kinova Gen 3 robot with Frank
 
 # Known Issue
 
-- The gripper is `panda_hande`, not `robotiq_2f_85`, to be modified later;
+- gripper control have some problem;
 - Null space control to be developed.
 
 # Source
