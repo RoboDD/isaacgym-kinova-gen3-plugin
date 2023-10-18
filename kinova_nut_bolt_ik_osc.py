@@ -13,6 +13,10 @@ Use Jacobian matrix and inverse kinematics control of kinova robot to pick up a 
 Damped Least Squares method from: https://www.math.ucsd.edu/~sbuss/ResearchWeb/ikmethods/iksurvey.pdf
 """
 
+'''
+cd ~/isaacgym/python/examples
+'''
+
 from inspect import Attribute
 from isaacgym import gymapi
 from isaacgym import gymutil
@@ -53,8 +57,8 @@ class ScrewFSM:
         self._state = "go_above_nut"
 
         # control / position constants:
-        self._above_offset = torch.tensor([0, 0, 0.08 + self._bolt_height], dtype=torch.float32, device=self.device)
-        self._grip_offset = torch.tensor([0, 0, 0.12 + self._nut_height], dtype=torch.float32, device=self.device)
+        self._above_offset = torch.tensor([0, 0, 0.085 + self._bolt_height], dtype=torch.float32, device=self.device)
+        self._grip_offset = torch.tensor([0, 0, 0.14 + self._nut_height], dtype=torch.float32, device=self.device)
         self._lift_offset = torch.tensor([0, 0, 0.15 + self._bolt_height], dtype=torch.float32, device=self.device)
         self._above_bolt_offset = torch.tensor([0, 0, self._bolt_height], dtype=torch.float32, device=self.device) + self._grip_offset
         self._on_bolt_offset = torch.tensor([0, 0, 0.8 * self._bolt_height], dtype=torch.float32, device=self.device) + self._grip_offset
@@ -278,6 +282,7 @@ bolt_options.enable_gyroscopic_forces = True  # default = True
 bolt_asset = gym.load_asset(sim, asset_root, bolt_file, bolt_options)
 
 # create nut asset
+# nut_file = "urdf/kortex_description/robots/robotiq_2f_85.urdf"
 nut_file = "urdf/nut_bolt/nut_m4_tight_SI_5x.urdf"
 nut_options = gymapi.AssetOptions()
 nut_options.flip_visual_attachments = False  # default = False
@@ -339,7 +344,7 @@ default_dof_pos_tensor = to_torch(default_dof_pos, device=device)
 # get link index of panda hand, which we will use as end effector
 kinova_link_dict = gym.get_asset_rigid_body_dict(kinova_asset)
 print(kinova_link_dict)
-kinova_hand_index = kinova_link_dict["panda_hand"]
+kinova_hand_index = kinova_link_dict["robotiq_2f_85_base"]
 
 # configure env grid
 num_envs = args.num_envs
@@ -350,7 +355,7 @@ env_upper = gymapi.Vec3(spacing, spacing, spacing)
 print("Creating %d environments" % num_envs)
 
 kinova_pose = gymapi.Transform()
-kinova_pose.p = gymapi.Vec3(0, 0, 0.45)
+kinova_pose.p = gymapi.Vec3(0, 0, 0.4)
 
 table_pose = gymapi.Transform()
 table_pose.p = gymapi.Vec3(0.5, 0.0, 0.5 * table_dims.z)
@@ -431,7 +436,7 @@ for i in range(num_envs):
     gym.set_actor_dof_position_targets(env, kinova_handle, default_dof_pos)
 
     # get global index of hand in rigid body state tensor
-    hand_idx = gym.find_actor_rigid_body_index(env, kinova_handle, "panda_hand", gymapi.DOMAIN_SIM)
+    hand_idx = gym.find_actor_rigid_body_index(env, kinova_handle, "robotiq_2f_85_base", gymapi.DOMAIN_SIM)
     hand_idxs.append(hand_idx)
 
     # create env's fsm - run them on CPU
@@ -462,7 +467,7 @@ rb_states = gymtorch.wrap_tensor(_rb_states)
 # get dof state tensor
 _dof_states = gym.acquire_dof_state_tensor(sim)
 dof_states = gymtorch.wrap_tensor(_dof_states)
-dof_pos = dof_states[:, 0].view(num_envs, 9, 1)
+dof_pos = dof_states[:, 0].view(num_envs, 9, 1) # 9 for franka 13
 
 # Set action tensors
 pos_action = torch.zeros_like(dof_pos).squeeze(-1)
