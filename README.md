@@ -26,3 +26,7 @@ A modified URDF file and python example script for Kinova Gen 3 robot with Frank
 
 - URDF file: [Kortex Description](https://github.com/Kinovarobotics/ros_kortex/tree/noetic-devel/kortex_description)
 - ros_kortex/kortex_description/arms/gen3/7dof/
+
+# Gripper link reference
+
+![](robotiq_hand_mapping.png)
